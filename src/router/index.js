@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/components/Home.vue';
 import Login from '@/components/Login.vue';
 import WritePage from '@/components/WritePage.vue';
+import NotionPages from '@/components/NotionPages.vue';
+
 const routes = [
   {
     path: '/',
@@ -17,6 +19,11 @@ const routes = [
     path: '/Write',
     name: 'WritePage',
     component: WritePage
+  },
+  {
+    path: '/NotionPages',
+    name: 'NotionPages',
+    component: NotionPages
   }
 ];
 
