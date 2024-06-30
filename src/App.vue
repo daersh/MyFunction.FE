@@ -11,9 +11,7 @@
             <li class="nav-item">
               <router-link class="nav-link active" aria-current="page" to="/">Home</router-link>
             </li>
-            <li class="nav-item">
-              <router-link class="nav-link" to="/login">Login</router-link>
-            </li>
+
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Dropdown
@@ -29,10 +27,17 @@
               <a class="nav-link disabled">Disabled</a>
             </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+
+          <div class="d-flex" >
+
+            <div class="nav-item" >
+              <router-link class="nav-link" to="/login">Login</router-link>
+            </div>
+            <div>
+              userId:
+            </div>
+          </div>
+
         </div>
       </div>
     </nav>

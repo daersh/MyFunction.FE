@@ -140,7 +140,7 @@ onMounted(() => {
   width: 100%;
 }
 .card-img-top {
-  height: 300px; /* 예시 높이 설정 */
+  height: 500px; /* 예시 높이 설정 */
   background-color: #ddd; /* 이미지를 대체할 색상 */
 }
 </style>
