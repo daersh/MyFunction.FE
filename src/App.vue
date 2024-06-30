@@ -9,10 +9,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <router-link class="nav-link active" aria-current="page" to="/">Home</router-link>
+              <router-link class="nav-link" :class="{ active: isActive('/') }" aria-current="page" to="/">Home</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/NotionPages">Notion</router-link>
+              <router-link class="nav-link" :class="{ active: isActive('/NotionPages') }" to="/NotionPages">Notion</router-link>
             </li>
 
             <li class="nav-item dropdown">
@@ -31,10 +31,9 @@
             </li>
           </ul>
 
-          <div class="d-flex" >
-
-            <div class="nav-item" >
-              <router-link class="nav-link" to="/login">Login</router-link>
+          <div class="d-flex">
+            <div class="nav-item">
+              <router-link class="nav-link" :class="{ active: isActive('/login') }" to="/login">Login</router-link>
             </div>
             <div>
               userId:
@@ -50,7 +49,18 @@
 </template>
 
 <script setup>
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
+const isActive = (path) => {
+  return route.path === path;
+};
 </script>
 
 <style>
+.nav-link.active {
+  font-weight: bold;
+  color: #007bff; /* 원하는 강조 색상 */
+}
 </style>
