@@ -3,12 +3,12 @@
     <div class="row row-cols-1 g-4">
       <div v-for="page in pages" :key="page.id" class="col">
         <div class="card mb-4">
-          <!-- 이미지 공간 -->
           <div class="card-img-top">
             <img :src="getRandomImage()" alt="Random Image" />
           </div>
           <div class="card-body">
             <h5 class="card-title">{{ page.properties.Name.title[0].text.content }}</h5>
+            <h6>프로젝트 기간: {{ page.properties.Date.date.start}} ~ {{ page.properties.Date.date.end}}</h6>
             <p class="card-text">
               <a :href="page.url" target="_blank" class="btn btn-primary">Open Notion Page</a>
             </p>
@@ -29,6 +29,7 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { fetchNotionPages } from '../api/notion';
+
 
 const pages = ref([]);
 const loading = ref(true);
@@ -62,6 +63,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
+@import "vue-notion/src/styles.css";
 .card {
   margin-bottom: 20px;
   width: 100%;
