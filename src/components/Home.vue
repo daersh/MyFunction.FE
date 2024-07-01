@@ -1,29 +1,6 @@
 <template>
   <div class="container mt-5">
-    <!-- <form @submit.prevent="applyFilters" class="mb-4"> -->
-    <!--   <div class="row mb-3"> -->
-    <!--     <div class="col"> -->
-    <!--       <input type="number" class="form-control" v-model="filter.likes" placeholder="Likes" required> -->
-    <!--     </div> -->
-    <!--     <div class="col"> -->
-    <!--       <input type="number" class="form-control" v-model="filter.hits" placeholder="Hits" required> -->
-    <!--     </div> -->
-    <!--     <div class="col"> -->
-    <!--       <input type="number" class="form-control" v-model="filter.category" placeholder="Category" required> -->
-    <!--     </div> -->
-    <!--     <div class="col"> -->
-    <!--       <input type="text" class="form-control" v-model="filter.search" placeholder="Search"> -->
-    <!--     </div> -->
-    <!--     <div class="col-auto"> -->
-    <!--       <button type="submit" class="btn btn-primary">Apply Filters</button> -->
-    <!--     </div> -->
-    <!--     <div class="col-auto"> -->
-    <!--       <button @click="resetFilter" class="btn btn-primary">Reset Filters</button> -->
-    <!--     </div> -->
-    <!--   </div> -->
-    <!-- </form> -->
-
-    <div class="row row-cols-1 g-4">
+    <div class="row row-cols-1 g-4 justify-content-center">
       <div v-for="board in boards" :key="board.boardCode" class="col">
         <div class="card mb-4">
           <!-- 이미지 공간 -->
@@ -153,11 +130,12 @@ onMounted(() => {
 
 <style scoped>
 .card {
-  margin-bottom: 20px;
-  width: 100%;
+  margin-bottom: 20px; /* 카드 아래 여백 설정 */
+  max-width: 800px; /* 최대 카드 너비 설정 */
+  margin: 0 auto; /* 가운데 정렬 */
 }
 .card-img-top {
-  height: 500px; /* 예시 높이 설정 */
+  max-height: 300px; /* 예시 높이 설정 */
   background-color: #ddd; /* 이미지를 대체할 색상 */
   overflow: hidden; /* 이미지가 영역을 벗어날 경우를 대비해 숨김 처리 */
 }

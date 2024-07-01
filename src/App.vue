@@ -14,29 +14,16 @@
             <li class="nav-item">
               <router-link class="nav-link" :class="{ active: isActive('/NotionPages') }" to="/NotionPages">Projects</router-link>
             </li>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled">Disabled</a>
-            </li>
+            <!-- 여기에 더 많은 메뉴 항목들 추가 -->
           </ul>
 
           <div class="d-flex">
-            <div class="nav-item">
-              <router-link class="nav-link" :class="{ active: isActive('/login') }" to="/login">Login</router-link>
+            <div v-if="userId" class="nav-item d-flex align-items-center">
+              <span class="nav-link me-3">UserId: {{ userId }}</span>
+              <button @click="logout" class="btn btn-outline-danger">Logout</button>
             </div>
-            <div>
-              userId:
+            <div v-else class="nav-item">
+              <router-link class="nav-link" :class="{ active: isActive('/login') }" to="/login">Login</router-link>
             </div>
           </div>
 
@@ -49,13 +36,64 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router';
+import { ref, onMounted, provide } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import jwt_decode from 'jwt-decode';
 
 const route = useRoute();
+const router = useRouter();
+const userId = ref(null);
 
 const isActive = (path) => {
   return route.path === path;
 };
+
+const checkLogin = () => {
+  const accessToken = localStorage.getItem('access');
+  if (accessToken) {
+    try {
+      const decodedToken = jwt_decode(accessToken);
+      userId.value = decodedToken.userId;
+    } catch (error) {
+      console.error('Failed to decode token', error);
+    }
+  }
+};
+
+const logout = async () => {
+  try {
+    const response = await fetch('http://localhost:8010/logout', {
+      method: 'POST',
+      credentials: 'include', // 쿠키를 포함하기 위해
+    });
+
+    if (!response.ok) {
+      throw new Error('Logout failed');
+    }
+
+    // 로컬 스토리지에서 access 토큰 제거
+    localStorage.removeItem('access');
+
+    // refresh 토큰 쿠키 제거 (서버에서도 제거해야 함)
+    document.cookie = 'refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
+    // userId 초기화
+    userId.value = null;
+
+    // 홈 페이지로 리다이렉트
+    router.push('/');
+  } catch (error) {
+    console.error('Logout failed', error);
+  }
+};
+
+onMounted(() => {
+  checkLogin();
+});
+
+// provide userId globally
+provide('userId', userId);
+
 </script>
 
 <style>

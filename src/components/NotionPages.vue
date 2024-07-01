@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-5">
-    <div class="row row-cols-1 g-4">
+    <div class="row row-cols-1 g-4 justify-content-center">
       <div v-for="page in pages" :key="page.id" class="col">
         <div class="card mb-4">
           <div class="card-img-top">
@@ -29,7 +29,6 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { fetchNotionPages } from '../api/notion';
-
 
 const pages = ref([]);
 const loading = ref(true);
@@ -63,13 +62,13 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@import "vue-notion/src/styles.css";
 .card {
   margin-bottom: 20px;
-  width: 100%;
+  max-width: 800px; /* 최대 카드 너비 설정 */
+  margin: 0 auto; /* 가운데 정렬 */
 }
 .card-img-top {
-  height: 500px; /* 예시 높이 설정 */
+  max-height: 300px; /* 예시 높이 설정 */
   background-color: #ddd; /* 이미지를 대체할 색상 */
   overflow: hidden; /* 이미지가 영역을 벗어날 경우를 대비해 숨김 처리 */
 }

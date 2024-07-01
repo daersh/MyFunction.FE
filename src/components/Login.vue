@@ -65,7 +65,7 @@ const login = async () => {
     console.log('Login successful. Refresh token should be set in cookies by the server.');
 
     // 홈 페이지로 리다이렉트
-    router.push({ name: 'Home' });
+    router.push('/');
   } catch (error) {
     console.error('Login failed', error);
   }
