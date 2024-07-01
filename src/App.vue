@@ -12,7 +12,7 @@
               <router-link class="nav-link" :class="{ active: isActive('/') }" aria-current="page" to="/">Home</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: isActive('/NotionPages') }" to="/NotionPages">Notion</router-link>
+              <router-link class="nav-link" :class="{ active: isActive('/NotionPages') }" to="/NotionPages">Projects</router-link>
             </li>
 
             <li class="nav-item dropdown">
