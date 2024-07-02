@@ -62,7 +62,7 @@ const checkLogin = () => {
 
 const logout = async () => {
   try {
-    const response = await fetch('http://localhost:8010/logout', {
+    const response = await fetch('https://port-0-myfunction-ly3nu14643e28c63.sel5.cloudtype.app/logout', {
       method: 'POST',
       credentials: 'include', // 쿠키를 포함하기 위해
     });

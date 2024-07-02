@@ -39,7 +39,7 @@ const login = async () => {
     formData.append('username', username.value);
     formData.append('password', password.value);
 
-    const response = await fetch('http://localhost:8010/login', {
+    const response = await fetch('https://port-0-myfunction-ly3nu14643e28c63.sel5.cloudtype.app/login', {
       method: 'POST',
       body: formData,
       credentials: 'include' // 이 옵션을 추가하여 쿠키를 자동으로 처리하도록 합니다.

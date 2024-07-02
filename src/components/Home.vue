@@ -52,7 +52,7 @@ const fetchBoards = async () => {
   if (loading.value) return;
   loading.value = true;
   try {
-    const response = await axios.get('http://localhost:8010/board', {
+    const response = await axios.get('https://port-0-myfunction-ly3nu14643e28c63.sel5.cloudtype.app/board', {
       params: {
         page: filter.value.page,
         likes: filter.value.likes,
