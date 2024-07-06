@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import axios from '@/plugins/axios'; // 새로 만든 Axios 인스턴스 import
 import { fetchNotionPages } from '../api/notion';
 
 const pages = ref([]);

@@ -48,10 +48,10 @@ const login = async () => {
     if (!response.ok) {
       throw new Error('Login failed');
     }
-    
+
     // 헤더에서 access 토큰 가져오기
     const accessToken = response.headers.get('access');
-    
+
     if (!accessToken) {
       throw new Error('Access token not found in response headers');
     }
@@ -61,8 +61,28 @@ const login = async () => {
     // access 토큰을 로컬 스토리지에 저장
     localStorage.setItem('access', accessToken);
 
-    // refresh 토큰은 서버에서 자동으로 쿠키에 설정되므로 여기서 처리할 필요가 없습니다.
-    console.log('Login successful. Refresh token should be set in cookies by the server.');
+    // 쿠키에서 refresh 토큰을 가져와서 설정
+    const cookies = document.cookie.split('; ');
+    let refreshToken = '';
+    const expireDate = new Date();  // 만료 시간을 현재 시간으로 설정
+    expireDate.setDate(expireDate.getDate() + 7); // 예시: 7일 후에 만료되도록 설정
+    const expireDateString = expireDate.toUTCString(); // UTC 문자열로 변환
+
+    cookies.forEach(cookie => {
+      const [name, value] = cookie.split('=');
+      if (name.trim() === 'refresh') { // name.trim()으로 공백을 제거한 후 비교
+        refreshToken = value;
+        document.cookie = `refresh=${refreshToken}; path=/; expires=${expireDateString}; SameSite=None; Secure`;
+      }
+    });
+
+
+    if (refreshToken) {
+      console.log('Refresh Token:', refreshToken);
+      // 여기서 로컬 스토리지에 저장하거나 다른 작업을 수행할 수 있습니다.
+    } else {
+      console.error('Refresh token not found in cookies');
+    }
 
     // 홈 페이지로 리다이렉트
     router.push('/');

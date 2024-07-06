@@ -1,5 +1,24 @@
 <template>
   <div class="container mt-5">
+    <!-- 게시물 작성 폼 -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">게시물 작성</h5>
+        <form @submit.prevent="createBoard">
+          <div class="mb-3">
+            <label for="title" class="form-label">제목</label>
+            <input type="text" class="form-control" id="title" v-model="newBoard.title" required>
+          </div>
+          <div class="mb-3">
+            <label for="content" class="form-label">내용</label>
+            <textarea class="form-control" id="content" v-model="newBoard.content" rows="3" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">작성</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 기존 코드: 게시물 리스트 -->
     <div class="row row-cols-1 g-4 justify-content-center">
       <div v-for="board in boards" :key="board.boardCode" class="col">
         <div class="card mb-4">
@@ -19,12 +38,14 @@
       </div>
     </div>
 
+    <!-- 로딩 스피너 -->
     <div class="text-center mt-4" v-if="loading">
       <div class="spinner-border" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
 
+    <!-- 더 이상 로드할 게시물이 없을 때 메시지 -->
     <div class="text-center mt-4" v-if="!hasNextPage && !loading && boards.length > 0">
       <p>No more boards to load.</p>
     </div>
@@ -33,7 +54,13 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import axios from '@/plugins/axios'; // 새로 만든 Axios 인스턴스 import
+
+// 게시물 작성 폼 데이터
+const newBoard = ref({
+  title: '',
+  content: ''
+});
 
 const filter = ref({
   page: 1,
@@ -52,7 +79,7 @@ const fetchBoards = async () => {
   if (loading.value) return;
   loading.value = true;
   try {
-    const response = await axios.get('https://port-0-myfunction-ly3nu14643e28c63.sel5.cloudtype.app/board', {
+    const response = await axios.get('/board', {
       params: {
         page: filter.value.page,
         likes: filter.value.likes,
@@ -119,6 +146,21 @@ const handleScroll = () => {
   const bottomOfWindow = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 200;
   if (bottomOfWindow && !loading.value && hasNextPage.value) {
     fetchBoards();
+  }
+};
+
+// 게시물 작성 함수
+const createBoard = async () => {
+  try {
+    const response = await axios.post('/board', {
+      title: newBoard.value.title,
+      content: newBoard.value.content
+    });
+
+    console.log('Board created successfully', response.data);
+    resetFilter(); // 게시물 작성 후 목록 갱신
+  } catch (error) {
+    console.error('Failed to create board', error);
   }
 };
 

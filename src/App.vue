@@ -39,6 +39,7 @@
 import { ref, onMounted, provide } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import jwt_decode from 'jwt-decode';
+import axios from '@/plugins/axios'; // 새로 만든 Axios 인스턴스
 
 const route = useRoute();
 const router = useRouter();
@@ -62,14 +63,7 @@ const checkLogin = () => {
 
 const logout = async () => {
   try {
-    const response = await fetch('https://port-0-myfunction-ly3nu14643e28c63.sel5.cloudtype.app/logout', {
-      method: 'POST',
-      credentials: 'include', // 쿠키를 포함하기 위해
-    });
-
-    if (!response.ok) {
-      throw new Error('Logout failed');
-    }
+    await axios.post('/logout');
 
     // 로컬 스토리지에서 access 토큰 제거
     localStorage.removeItem('access');
@@ -93,7 +87,6 @@ onMounted(() => {
 
 // provide userId globally
 provide('userId', userId);
-
 </script>
 
 <style>
