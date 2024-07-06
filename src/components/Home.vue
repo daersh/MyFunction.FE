@@ -124,7 +124,7 @@ const getRandomImage = () => {
   return img_url.value[randomIndex];
 };
 
-getImg();
+// getImg();
 
 const resetFilter = async () => {
   filter.value.page = 1;

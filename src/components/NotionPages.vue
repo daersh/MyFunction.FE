@@ -56,7 +56,7 @@ const fetchPages = async () => {
 };
 
 onMounted(() => {
-  getImg();
+  // getImg();
   fetchPages();
 });
 </script>
