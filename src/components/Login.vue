@@ -66,7 +66,7 @@ const login = async () => {
       // refresh 토큰 만료 설정
       const expireDate = new Date();
       expireDate.setDate(expireDate.getDate() + 5);
-      document.cookie = `refresh=${refreshToken}; path=/; expires=${expireDate.toUTCString()}; SameSite=Lax; Secure`;
+      document.cookie = `refresh=${refreshToken}; path=/; expires=${expireDate.toUTCString()}; SameSite=Lax; `;
     } else {
       console.error('Refresh token not found in cookies');
     }

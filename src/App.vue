@@ -55,7 +55,7 @@ const getRefreshToken = () => {
 const setRefreshToken = (token) => {
   const expirationDate = new Date();
   expirationDate.setDate(expirationDate.getDate() + 30); // 30일 후 만료
-  document.cookie = `refresh=${token}; path=/; expires=${expirationDate.toUTCString()}; SameSite=Lax; HttpOnly; Secure`;
+  document.cookie = `refresh=${token}; path=/; expires=${expirationDate.toUTCString()}; SameSite=Lax; HttpOnly; `;
 };
 
 const refreshToken = async () => {
@@ -115,7 +115,7 @@ const logout = async () => {
   try {
     await axios.post('/logout');
     localStorage.removeItem('access');
-    document.cookie = 'refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax; HttpOnly; Secure';
+    document.cookie = 'refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax; HttpOnly; ';
     userId.value = null;
     router.push('/');
   } catch (error) {
@@ -126,7 +126,7 @@ const logout = async () => {
 const handleAuthError = () => {
   userId.value = null;
   localStorage.removeItem('access');
-  document.cookie = 'refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax; HttpOnly; Secure';
+  document.cookie = 'refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax; HttpOnly; ';
   router.push('/login');
 };
 

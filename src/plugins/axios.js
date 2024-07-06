@@ -26,7 +26,7 @@ axiosInstance.interceptors.response.use(
         const refreshToken = response.headers['refresh-token']; // 서버 응답 헤더에 따라 조정
         if (refreshToken) {
             // refresh 토큰을 쿠키에 저장
-            document.cookie = `refresh=${refreshToken}; path=/; Secure; SameSite=Lax`;
+            document.cookie = `refresh=${refreshToken}; path=/;  SameSite=Lax; `;
         }
         return response;
     },
