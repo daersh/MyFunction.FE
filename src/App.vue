@@ -14,7 +14,6 @@
             <li class="nav-item">
               <router-link class="nav-link" :class="{ active: isActive('/NotionPages') }" to="/NotionPages">Projects</router-link>
             </li>
-            <!-- 여기에 더 많은 메뉴 항목들 추가 -->
           </ul>
 
           <div class="d-flex">
@@ -26,7 +25,6 @@
               <router-link class="nav-link" :class="{ active: isActive('/login') }" to="/login">Login</router-link>
             </div>
           </div>
-
         </div>
       </div>
     </nav>
@@ -35,11 +33,12 @@
   <router-view></router-view>
 </template>
 
+
 <script setup>
-import { ref, onMounted, provide } from 'vue';
+import { ref, onMounted, onUnmounted, provide } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import jwt_decode from 'jwt-decode';
-import axios from '@/plugins/axios'; // 새로 만든 Axios 인스턴스
+import axios from '@/plugins/axios';
 
 const route = useRoute();
 const router = useRouter();
@@ -49,14 +48,62 @@ const isActive = (path) => {
   return route.path === path;
 };
 
-const checkLogin = () => {
+const getRefreshToken = () => {
+  return document.cookie.split('; ').find(row => row.startsWith('refresh='))?.split('=')[1];
+};
+
+const setRefreshToken = (token) => {
+  const expirationDate = new Date();
+  expirationDate.setDate(expirationDate.getDate() + 30); // 30일 후 만료
+  document.cookie = `refresh=${token}; path=/; expires=${expirationDate.toUTCString()}; SameSite=Lax; HttpOnly; Secure`;
+};
+
+const refreshToken = async () => {
+  const refresh = getRefreshToken();
+  if (!refresh) {
+    throw new Error('No refresh token available');
+  }
+
+  try {
+    const response = await axios.post('/refresh-token', { refresh }, {
+      withCredentials: true
+    });
+    const newAccessToken = response.data.accessToken;
+    const newRefreshToken = response.data.refreshToken;
+
+    localStorage.setItem('access', newAccessToken);
+    if (newRefreshToken) {
+      setRefreshToken(newRefreshToken);
+    }
+
+    const decodedToken = jwt_decode(newAccessToken);
+    userId.value = decodedToken.userId;
+  } catch (error) {
+    console.error('Failed to refresh token', error);
+    handleAuthError();
+  }
+};
+
+const checkLogin = async () => {
   const accessToken = localStorage.getItem('access');
   if (accessToken) {
     try {
       const decodedToken = jwt_decode(accessToken);
-      userId.value = decodedToken.userId;
+      if (decodedToken.exp * 1000 > Date.now()) {
+        userId.value = decodedToken.userId;
+      } else {
+        await refreshToken();
+      }
     } catch (error) {
       console.error('Failed to decode token', error);
+      await refreshToken();
+    }
+  } else {
+    const refresh = getRefreshToken();
+    if (refresh) {
+      await refreshToken();
+    } else {
+      handleAuthError();
     }
   }
 };
@@ -64,34 +111,45 @@ const checkLogin = () => {
 const logout = async () => {
   try {
     await axios.post('/logout');
-
-    // 로컬 스토리지에서 access 토큰 제거
     localStorage.removeItem('access');
-
-    // refresh 토큰 쿠키 제거 (서버에서도 제거해야 함)
-    document.cookie = 'refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-
-    // userId 초기화
+    document.cookie = 'refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax; HttpOnly; Secure';
     userId.value = null;
-
-    // 홈 페이지로 리다이렉트
     router.push('/');
   } catch (error) {
     console.error('Logout failed', error);
   }
 };
 
-onMounted(() => {
-  checkLogin();
+const handleAuthError = () => {
+  userId.value = null;
+  localStorage.removeItem('access');
+  document.cookie = 'refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax; HttpOnly; Secure';
+  router.push('/login');
+};
+
+let refreshInterval;
+
+onMounted(async () => {
+  await checkLogin();
+  refreshInterval = setInterval(checkLogin, 5 * 60 * 1000); // 5분마다 체크
 });
 
-// provide userId globally
+onUnmounted(() => {
+  clearInterval(refreshInterval);
+});
+
 provide('userId', userId);
+
+// 라우터 가드 설정
+router.beforeEach(async (to, from, next) => {
+  await checkLogin();
+  next();
+});
 </script>
 
 <style>
 .nav-link.active {
   font-weight: bold;
-  color: #007bff; /* 원하는 강조 색상 */
+  color: #007bff;
 }
 </style>
