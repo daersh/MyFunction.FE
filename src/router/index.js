@@ -1,8 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory, createWebHashHistory } from 'vue-router';
 import Home from '@/components/Home.vue';
 import Login from '@/components/Login.vue';
 import WritePage from '@/components/WritePage.vue';
 import NotionPages from '@/components/NotionPages.vue';
+
 
 const routes = [
   {
@@ -27,9 +28,13 @@ const routes = [
   }
 ];
 
+// const router = createRouter({
+//   history: createWebHistory(),
+//   routes
+// });
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes
-});
+})
 
 export default router;
