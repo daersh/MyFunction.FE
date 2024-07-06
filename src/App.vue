@@ -48,42 +48,6 @@ const isActive = (path) => {
   return route.path === path;
 };
 
-const getRefreshToken = () => {
-  return document.cookie.split('; ').find(row => row.startsWith('refresh='))?.split('=')[1];
-};
-
-const setRefreshToken = (token) => {
-  const expirationDate = new Date();
-  expirationDate.setDate(expirationDate.getDate() + 30); // 30일 후 만료
-  document.cookie = `refresh=${token}; path=/; expires=${expirationDate.toUTCString()}; SameSite=Lax; HttpOnly; Secure`;
-};
-
-const refreshToken = async () => {
-  const refresh = getRefreshToken();
-  if (!refresh) {
-    throw new Error('No refresh token available');
-  }
-
-  try {
-    const response = await axios.post('/refresh-token', { refresh }, {
-      withCredentials: true
-    });
-    const newAccessToken = response.data.accessToken;
-    const newRefreshToken = response.data.refreshToken;
-
-    localStorage.setItem('access', newAccessToken);
-    if (newRefreshToken) {
-      setRefreshToken(newRefreshToken);
-    }
-
-    const decodedToken = jwt_decode(newAccessToken);
-    userId.value = decodedToken.userId;
-  } catch (error) {
-    console.error('Failed to refresh token', error);
-    handleAuthError();
-  }
-};
-
 const checkLogin = async () => {
   const accessToken = localStorage.getItem('access');
   if (accessToken) {
@@ -92,19 +56,11 @@ const checkLogin = async () => {
       if (decodedToken.exp * 1000 > Date.now()) {
         userId.value = decodedToken.userId;
       } else {
-        await refreshToken();
       }
     } catch (error) {
       console.error('Failed to decode token', error);
-      await refreshToken();
     }
   } else {
-    const refresh = getRefreshToken();
-    if (refresh) {
-      await refreshToken();
-    } else {
-      handleAuthError();
-    }
   }
 };
 
