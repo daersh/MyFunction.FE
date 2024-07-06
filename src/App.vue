@@ -48,6 +48,44 @@ const isActive = (path) => {
   return route.path === path;
 };
 
+const getRefreshToken = () => {
+  return document.cookie.split('; ').find(row => row.startsWith('refresh='))?.split('=')[1];
+};
+
+const setRefreshToken = (token) => {
+  const expirationDate = new Date();
+  expirationDate.setDate(expirationDate.getDate() + 30); // 30일 후 만료
+  document.cookie = `refresh=${token}; path=/; expires=${expirationDate.toUTCString()}; SameSite=Lax; HttpOnly; Secure`;
+};
+
+const refreshToken = async () => {
+  const refresh = getRefreshToken();
+  if (!refresh) {
+    handleAuthError(); // refreshToken이 없으면 에러 처리
+    return;
+  }
+
+  try {
+    const response = await axios.post('/reissue', { refresh }, {
+      withCredentials: true
+    });
+    const newAccessToken = response.data.accessToken;
+    const newRefreshToken = response.data.refreshToken;
+
+    localStorage.setItem('access', newAccessToken);
+    if (newRefreshToken) {
+      setRefreshToken(newRefreshToken);
+    }
+
+    const decodedToken = jwt_decode(newAccessToken);
+    userId.value = decodedToken.userId; // userId 업데이트
+  } catch (error) {
+    console.error('Failed to refresh token', error);
+    handleAuthError();
+  }
+};
+
+
 const checkLogin = async () => {
   const accessToken = localStorage.getItem('access');
   if (accessToken) {
@@ -56,13 +94,22 @@ const checkLogin = async () => {
       if (decodedToken.exp * 1000 > Date.now()) {
         userId.value = decodedToken.userId;
       } else {
+        await refreshToken(); // 토큰이 만료된 경우에만 refreshToken 호출
       }
     } catch (error) {
       console.error('Failed to decode token', error);
+      handleAuthError();
     }
   } else {
+    const refresh = getRefreshToken();
+    if (refresh) {
+      await refreshToken(); // 로컬 스토리지에 accessToken이 없고, refreshToken이 있는 경우에 refreshToken 호출
+    } else {
+      handleAuthError();
+    }
   }
 };
+
 
 const logout = async () => {
   try {
@@ -96,11 +143,6 @@ onUnmounted(() => {
 
 provide('userId', userId);
 
-// 라우터 가드 설정
-router.beforeEach(async (to, from, next) => {
-  await checkLogin();
-  next();
-});
 </script>
 
 <style>
