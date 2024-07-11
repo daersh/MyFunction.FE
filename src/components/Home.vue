@@ -23,9 +23,9 @@
       <div v-for="board in boards" :key="board.boardCode" class="col">
         <div class="card mb-4">
           <!-- 이미지 공간 -->
-          <div class="card-img-top">
+          <!-- <div class="card-img-top">
             <img :src="getRandomImage()" alt="Random Image" />
-          </div>
+          </div> -->
           <div class="card-body">
             <h5 class="card-title">{{ board.title }}</h5>
             <p class="card-text">{{ board.content }}</p>
