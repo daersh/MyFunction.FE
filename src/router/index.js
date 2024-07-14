@@ -3,7 +3,7 @@ import Home from '@/components/Home.vue';
 import Login from '@/components/Login.vue';
 import WritePage from '@/components/WritePage.vue';
 import NotionPages from '@/components/NotionPages.vue';
-
+import Chat from '@/components/Chat.vue';
 
 const routes = [
   {
@@ -25,7 +25,13 @@ const routes = [
     path: '/NotionPages',
     name: 'NotionPages',
     component: NotionPages
+  },
+  {
+    path: '/Chat',
+    name: 'Chat',
+    component: Chat
   }
+
 ];
 
 // const router = createRouter({

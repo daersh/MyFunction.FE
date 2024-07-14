@@ -3,9 +3,9 @@
     <div class="row row-cols-1 g-4 justify-content-center">
       <div v-for="page in pages" :key="page.id" class="col">
         <div class="card mb-4">
-          <div class="card-img-top">
+          <!-- <div class="card-img-top">
             <img :src="getRandomImage()" alt="Random Image" />
-          </div>
+          </div> -->
           <div class="card-body">
             <h5 class="card-title">{{ page.properties.Name.title[0].text.content }}</h5>
             <h6>프로젝트 기간: {{ page.properties.Date.date.start}} ~ {{ page.properties.Date.date.end}}</h6>

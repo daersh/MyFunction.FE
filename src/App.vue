@@ -14,6 +14,9 @@
             <li class="nav-item">
               <router-link class="nav-link" :class="{ active: isActive('/NotionPages') }" to="/NotionPages">Projects</router-link>
             </li>
+            <li class="nav-item">
+              <router-link class="nav-link" :class="{ active: isActive('/Chat') }" to="/Chat">Chat</router-link>
+            </li>
           </ul>
 
           <div class="d-flex">

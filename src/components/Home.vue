@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-5">
-    <!-- 게시물 작성 폼 -->
+
     <div class="card mb-4">
       <div class="card-body">
         <h5 class="card-title">게시물 작성</h5>
@@ -18,7 +18,6 @@
       </div>
     </div>
 
-    <!-- 기존 코드: 게시물 리스트 -->
     <div class="row row-cols-1 g-4 justify-content-center">
       <div v-for="board in boards" :key="board.boardCode" class="col">
         <div class="card mb-4">
@@ -172,18 +171,18 @@ onMounted(() => {
 
 <style scoped>
 .card {
-  margin-bottom: 20px; /* 카드 아래 여백 설정 */
-  max-width: 800px; /* 최대 카드 너비 설정 */
-  margin: 0 auto; /* 가운데 정렬 */
+  margin-bottom: 20px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 .card-img-top {
-  max-height: 300px; /* 예시 높이 설정 */
-  background-color: #ddd; /* 이미지를 대체할 색상 */
-  overflow: hidden; /* 이미지가 영역을 벗어날 경우를 대비해 숨김 처리 */
+  max-height: 300px;
+  background-color: #ddd;
+  overflow: hidden;
 }
 .card-img-top img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 이미지를 영역에 맞게 조정 */
+  object-fit: cover;
 }
 </style>
