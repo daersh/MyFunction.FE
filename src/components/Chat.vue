@@ -30,7 +30,7 @@ const username = ref('admin'); // 사용자명은 필요에 따라 변경
 
 const connectWebSocket = () => {
   const client = new Client({
-    brokerURL: 'ws://port-0-myfunction-ly3nu14643e28c63.sel5.cloudtype.app/ws',
+    brokerURL: 'wss://port-0-myfunction-ly3nu14643e28c63.sel5.cloudtype.app/ws',
     connectHeaders: {
       'access': localStorage.getItem('access')  // JWT 토큰 추가
     },
