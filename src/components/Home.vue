@@ -100,7 +100,7 @@ const fetchBoards = async () => {
       filter.value.page++;
     }
 
-    console.log('Boards fetched successfully', response.data);
+
   } catch (error) {
     console.error('Failed to fetch boards', error);
   } finally {
@@ -112,7 +112,7 @@ const getImg = async () => {
   try {
     const response = await axios.get('https://api.unsplash.com/photos/random?client_id=VEl75nxG2NReKoYWKewXtGnDXE6NDc6gfpIpQdl7fh8&count=30');
     img_url.value = response.data.map(photo => photo.urls.small);
-    console.log(response.data);
+
   } catch (error) {
     console.error('Failed to fetch image', error);
   }
@@ -156,7 +156,7 @@ const createBoard = async () => {
       content: newBoard.value.content
     });
 
-    console.log('Board created successfully', response.data);
+
     resetFilter(); // 게시물 작성 후 목록 갱신
   } catch (error) {
     console.error('Failed to create board', error);

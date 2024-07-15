@@ -43,7 +43,7 @@ const getImg = async () => {
   try {
     const response = await axios.get('https://api.unsplash.com/photos/random?client_id=VEl75nxG2NReKoYWKewXtGnDXE6NDc6gfpIpQdl7fh8&count=30');
     img_url.value = response.data.map(photo => photo.urls.small);
-    console.log(response.data);
+
   } catch (error) {
     console.error('Failed to fetch image', error);
   }

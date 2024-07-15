@@ -35,7 +35,7 @@ const connectWebSocket = () => {
       'access': localStorage.getItem('access')  // JWT 토큰 추가
     },
     debug: function (str) {
-      console.log(str);
+
     },
     reconnectDelay: 5000,
     heartbeatIncoming: 4000,
@@ -43,7 +43,6 @@ const connectWebSocket = () => {
   });
 
   client.onConnect = function (frame) {
-    console.log('Connected: ' + frame);
     client.subscribe('/topic/messages', function (message) {
       const receivedMessage = JSON.parse(message.body);
       messages.value.push(receivedMessage);

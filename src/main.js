@@ -10,8 +10,6 @@ import { createNaverMap } from 'vue3-naver-maps';
 const app = createApp(App);
 app.use(router);
 app.use(VueSweetalert2);
-
-console.log('NAVER CLIENT ID:', import.meta.env.VITE_NAVER);
 app.use(createNaverMap, {
     clientId: import.meta.env.VITE_NAVER,
     category: 'ncp',

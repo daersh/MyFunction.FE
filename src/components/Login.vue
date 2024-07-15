@@ -52,7 +52,7 @@ const login = async () => {
     if (!accessToken) {
       throw new Error('Access token not found in response headers');
     }
-    console.log('Access Token:', accessToken);
+
     localStorage.setItem('access', accessToken);
 
     // refresh 토큰 처리
@@ -62,7 +62,7 @@ const login = async () => {
         ?.split('=')[1];
 
     if (refreshToken) {
-      console.log('Refresh Token:', refreshToken);
+
       // refresh 토큰 만료 설정
       const expireDate = new Date();
       expireDate.setDate(expireDate.getDate() + 5);
