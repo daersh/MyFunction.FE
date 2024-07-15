@@ -17,6 +17,9 @@
             <li class="nav-item">
               <router-link class="nav-link" :class="{ active: isActive('/Chat') }" to="/Chat">Chat</router-link>
             </li>
+            <li class="nav-item">
+              <router-link class="nav-link" :class="{ active: isActive('/Map') }" to="/Map">Map</router-link>
+            </li>
           </ul>
 
           <div class="d-flex">
