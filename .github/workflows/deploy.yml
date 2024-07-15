@@ -25,10 +25,3 @@ jobs:
         env:
           VITE_NAVER: ${{ secrets.VUE_APP_NAVER_CLIENT_ID }}
         run: npm run build
-
-      - name: Deploy to GitHub Pages
-        if: success()
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
