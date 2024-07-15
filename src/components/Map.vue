@@ -1,13 +1,15 @@
 <template>
-  <naver-map
-    style="width: 100%; height: 400px"
-    :map-options="mapOptions"
-  >
-    <naver-marker
-      :latitude="markerPosition.latitude"
-      :longitude="markerPosition.longitude"
-    />
-  </naver-map>
+  <div v-if="isPositionReady">
+    <naver-map
+      style="width: 100%; height: 400px"
+      :map-options="mapOptions"
+    >
+      <naver-marker
+        :latitude="markerPosition.latitude"
+        :longitude="markerPosition.longitude"
+      />
+    </naver-map>
+  </div>
 </template>
 
 <script setup>
@@ -45,6 +47,10 @@ const mapOptions = ref({
   zoom: 13,
 });
 
+const markerPosition = ref({
+  latitude: 37.51347,
+  longitude: 127.041722,
+});
 
 watchEffect(() => {
   if (isPositionReady.value) {
@@ -62,10 +68,6 @@ watchEffect(() => {
 // 현재 위치 가져오기 함수 호출
 getCurrentPosition();
 
-const markerPosition = ref({
-  latitude: 37.51347,
-  longitude: 127.041722,
-});
 </script>
 
 <style scoped>
