@@ -94,7 +94,7 @@ const scrollToBottom = () => {
 
 const loadMessagesFromServer = async () => {
   try {
-    const response = await axios.get('/messages'); // 수정 필요: 실제 서버에서 메시지를 가져오는 API 엔드포인트로 변경
+    const response = await axios.get('/messages'); 
     messages.value = response.data;
     
     scrollToBottom();
@@ -103,7 +103,7 @@ const loadMessagesFromServer = async () => {
     Swal.fire('Error', '채팅 메시지를 불러오는데 실패했습니다.', 'error');
   }
 };
-loadMessagesFromServer(); // ���기 메시지 로드
+loadMessagesFromServer(); 
 </script>
 
 <style>
