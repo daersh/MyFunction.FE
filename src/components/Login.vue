@@ -20,6 +20,11 @@
         </label>
       </div>
       <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+      
+      <div>
+        <div id = "naver_id_login"></div>
+      </div>
+
       <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
     </form>
   </main>
@@ -29,6 +34,32 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from '@/plugins/axios'; // axios 인스턴스 import
+import { onMounted } from 'vue';
+
+const clientId = import.meta.env.VITE_NAVER_CLIENT_ID;
+const naverlogin = async() =>{
+      let client_id = "본인 client_id"
+      let redirect_uri = encodeURIComponent("redirct_url", "UTF-8")
+      const state = this.generateRandomState()
+      const apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
+        + "&client_id=" + client_id
+        + "&redirect_uri=" + redirect_uri
+        + "&state=" + state
+      window.location.href = apiURL
+    };
+
+onMounted(() => {
+  const naverLogin = new window.naver_id_login(
+    clientId,
+    "http://localhost:5173/Naverlogin"  // 개발자센터에서 등록한 Callback URL
+  );
+  const state = naverLogin.getUniqState();
+  naverLogin.setButton("white", 2, 40); // 버튼설정
+  naverLogin.setDomain("http://localhost:5173");
+  naverLogin.setState(state);
+  // naverLogin.setPopup(); // 팝업 여부
+  naverLogin.init_naver_id_login();
+});
 
 const username = ref('');
 const password = ref('');
