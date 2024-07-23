@@ -136,7 +136,7 @@ const handleAuthError = () => {
   userId.value = null;
   localStorage.removeItem('access');
   document.cookie = 'refresh=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax; HttpOnly; ';
-  router.push('/login');
+  // router.push('/login');
 };
 
 let refreshInterval;
