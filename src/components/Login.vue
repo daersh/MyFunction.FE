@@ -28,6 +28,10 @@
       <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
     </form>
   </main>
+
+  <div>
+    <button class="btn btn-primary w-10 py-2" type="button" @click="kakaoLogin">kakao</button>
+  </div>
 </template>
 
 <script setup>
@@ -35,6 +39,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from '@/plugins/axios'; // axios 인스턴스 import
 import { onMounted } from 'vue';
+
 
 const clientId = import.meta.env.VITE_NAVER_CLIENT_ID;
 const naverlogin = async() =>{
@@ -47,6 +52,12 @@ const naverlogin = async() =>{
         + "&state=" + state
       window.location.href = apiURL
     };
+const kakaoLogin = async() =>{
+  const response = await axios.get('http://localhost:8088/login/kakao');
+  const loginUrl = response.data; 
+  // URL로 이동
+  window.location.href = loginUrl;
+}
 
 onMounted(() => {
   const naverLogin = new window.naver_id_login(

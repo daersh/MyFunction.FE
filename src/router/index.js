@@ -7,6 +7,8 @@ import Chat from '@/components/Chat.vue';
 import Map from '@/components/Map.vue';
 import NaverLogin from '@/components/NaverLogin.vue';
 import NaverLoginEnter from '@/components/NaverLoginEnter.vue';
+import KakaoLogin from '@/components/KakaoLogin.vue' ;
+
 const routes = [
   {
     path: '/',
@@ -47,6 +49,11 @@ const routes = [
     path: '/NaverloginEnter',
     name: 'NaverloginEnter',
     component: NaverLoginEnter
+  },
+  {
+    path: '/kakao-login',
+    name: 'kakao-login',
+    component: KakaoLogin
   }
 ];
 
