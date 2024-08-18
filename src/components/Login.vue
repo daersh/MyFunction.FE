@@ -42,16 +42,16 @@ import { onMounted } from 'vue';
 
 
 const clientId = import.meta.env.VITE_NAVER_CLIENT_ID;
-const naverlogin = async() =>{
-      let client_id = "본인 client_id"
-      let redirect_uri = encodeURIComponent("redirct_url", "UTF-8")
-      const state = this.generateRandomState()
-      const apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
-        + "&client_id=" + client_id
-        + "&redirect_uri=" + redirect_uri
-        + "&state=" + state
-      window.location.href = apiURL
-    };
+// const naverlogin = async() =>{
+//       let client_id = "본인 client_id"
+//       let redirect_uri = encodeURIComponent("redirct_url", "UTF-8")
+//       const state = this.generateRandomState()
+//       // const apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code"
+//       //   + "&client_id=" + client_id
+//       //   + "&redirect_uri=" + redirect_uri
+//       //   + "&state=" + state
+//       window.location.href = apiURL
+//     };
 const kakaoLogin = async() =>{
   const response = await axios.get('http://localhost:8088/login/kakao');
   const loginUrl = response.data; 

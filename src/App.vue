@@ -21,7 +21,7 @@
               <router-link class="nav-link" :class="{ active: isActive('/Map') }" to="/Map">Map</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" :class="{ active: isActive('/NaverLoginEnter') }" to="/NaverLoginEnter">NaverLogin</router-link>
+              <!-- <router-link class="nav-link" :class="{ active: isActive('/NaverLoginEnter') }" to="/NaverLoginEnter">NaverLogin</router-link> -->
             </li>
           </ul>
 
